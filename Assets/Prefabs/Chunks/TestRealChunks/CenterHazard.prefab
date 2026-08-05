@@ -905,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 672bb4097e8787e4c88d5adf90071a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChunkInitialization
-  openings: -1
+  openings: 15
   markerList:
   - {fileID: 7152906053580376524}
   hasBaseTilemap: 1

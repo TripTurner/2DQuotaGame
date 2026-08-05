@@ -9,7 +9,8 @@ public enum Openings {
     Up = 1,
     Left = 2,
     Down = 4,
-    Right = 8
+    Right = 8,
+    NeverToggle = 16
 }
 
 public class ChunkInitialization : MonoBehaviour

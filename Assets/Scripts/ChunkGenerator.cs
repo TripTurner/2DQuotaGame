@@ -70,7 +70,7 @@ public class ChunkGenerator : MonoBehaviour
                 GameObject toInstantiate = chunkWall.gameObject;
                 while (true) {
                     if (chunksToTest.Count==0) {
-                        Debug.Log($"Couldn't fit tile at {j},{i}\n upOpen: {upOpen}\n leftOpen: {leftOpen}\n downOpen: {downOpen}\n rightOpen:{rightOpen}");
+                        Debug.Log($"Couldn't fit tile at {j},{i}. upOpen: {upOpen}, leftOpen: {leftOpen}, downOpen: {downOpen}, rightOpen:{rightOpen}");
                         break;
                     }
                     if (!(upOpen||downOpen||leftOpen||rightOpen) || tileArr[i,j]==0) {
@@ -82,10 +82,11 @@ public class ChunkGenerator : MonoBehaviour
                     chunksToTest.RemoveAt(index);
                     Openings check = Openings.None;
                     if (upOpen) check|= Openings.Up;
-                    if (downOpen) check |= Openings.Down;
+                    if (downOpen) check|= Openings.Down;
                     if (leftOpen) check|= Openings.Left;
                     if (rightOpen) check|= Openings.Right;
-                    if ((testChunk.openings&check)==check) {
+                    // if ((testChunk.openings&check)==check) {
+                    if (testChunk.openings==check) {
                         toInstantiate = testChunk.gameObject;
                         filledChunkNum++;
                         break;
