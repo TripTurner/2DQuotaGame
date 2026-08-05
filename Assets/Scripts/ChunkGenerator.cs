@@ -33,7 +33,7 @@ public class ChunkGenerator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        chunkPrefabs = new List<ChunkInitialization>{chunkDownLeft,chunkDownRight,chunkLeftRight,chunkUpDown,chunkUpDownLeftRight,chunkUpLeft,chunkUpRight};
+        //chunkPrefabs = new List<ChunkInitialization>{chunkDownLeft,chunkDownRight,chunkLeftRight,chunkUpDown,chunkUpDownLeftRight,chunkUpLeft,chunkUpRight};
         foreach (ChunkInitialization ci in chunkInitList) {
             chunkPrefabs.Add(ci);
         }
@@ -70,7 +70,7 @@ public class ChunkGenerator : MonoBehaviour
                 GameObject toInstantiate = chunkWall.gameObject;
                 while (true) {
                     if (chunksToTest.Count==0) {
-                        Debug.Log($"Couldn't fit tile at {j},{i}");
+                        Debug.Log($"Couldn't fit tile at {j},{i}\n upOpen: {upOpen}\n leftOpen: {leftOpen}\n downOpen: {downOpen}\n rightOpen:{rightOpen}");
                         break;
                     }
                     if (!(upOpen||downOpen||leftOpen||rightOpen) || tileArr[i,j]==0) {
