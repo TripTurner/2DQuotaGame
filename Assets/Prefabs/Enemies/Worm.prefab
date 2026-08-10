@@ -204,7 +204,7 @@ MonoBehaviour:
   head: {fileID: 5251863454978705413}
   segmentPrefab: {fileID: 8852176503411046631, guid: e163204a166784a459129fc1afdad3de, type: 3}
   wormSpeed: 6
-  wormLength: 500
+  wormLength: 10
   dir: 1
   segmentLength: 1.25
   sineHeight: 1.3

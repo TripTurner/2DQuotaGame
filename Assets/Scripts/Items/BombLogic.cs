@@ -47,10 +47,10 @@ public class BombLogic : ItemLogic
         foreach (Collider2D c in hits) {
             if (c.gameObject.CompareTag("Player")) {
                 c.gameObject.GetComponent<PlayerHealth>().takeDamage(20, (c.gameObject.transform.position - transform.position).normalized * explodeForce);
-            }/* else {
+            } else {
                 Rigidbody2D otherRB = c.gameObject.GetComponent<Rigidbody2D>();
                 if (otherRB!=null) otherRB.linearVelocity = (c.gameObject.transform.position - transform.position).normalized * explodeForce;
-            }*/
+            }
         }
         Destroy(gameObject);
     }
