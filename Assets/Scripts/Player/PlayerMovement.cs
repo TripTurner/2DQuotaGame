@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
             onGround = coyoteFrames;
         }
 
-        if (stunTimer<=0) {
+        if (!stunned) {
             if (Keyboard.current.aKey.isPressed) {
                 rb.linearVelocityX = -moveSpeed;
                 dir = -1;

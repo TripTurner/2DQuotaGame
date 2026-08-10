@@ -25,7 +25,13 @@ public class WormLogic : EnemyData
     void Start()
     {
         initialize();
+        pointCastOffset1 = new Vector2(pointCastOffset1.x*dir, pointCastOffset1.y);
+        pointCastOffset2 = new Vector2(pointCastOffset2.x*dir, pointCastOffset2.y);
+        pointCastOffset3 = new Vector2(pointCastOffset3.x*dir, pointCastOffset3.y);
+
         world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
+        head.GetComponent<EnemyData>().setDamage(damage);
+        head.GetComponent<EnemyData>().setKnockback(knockback);
         segments = new GameObject[wormLength];
         for(int i=0; i<wormLength; i++) {
             GameObject localSegment = Instantiate(segmentPrefab, this.transform);
@@ -51,16 +57,16 @@ public class WormLogic : EnemyData
             segments[i].transform.position = new Vector2(localX,transform.position.y + sineHeight * Mathf.Sin(localX/sinePeriod));
         }
 
-        frames++;
-        if (frames==10) {
-            frames = 0;
+        //frames++;
+        //if (frames==10) {
+            //frames = 0;
             // checkHit(pointCastOffset1);
             // checkHit(pointCastOffset2);
             // checkHit(pointCastOffset3);
             removeTile(pointCastOffset1);
             removeTile(pointCastOffset2);
             removeTile(pointCastOffset3);
-        }
+        //}
     }
 
     public void checkHit(Vector2 pointCastOffset) {
@@ -72,12 +78,12 @@ public class WormLogic : EnemyData
     }
 
     public void removeTile(Vector2 pointCastOffset) {
-        Debug.Log(knockback);
+        //Debug.Log(knockback);
         world.destroyTile(head.transform.position + (Vector3)pointCastOffset);
     }
 
-    void OnDrawGizmos() {
-        Gizmos.DrawSphere(head.transform.position + (Vector3)pointCastOffset1,.2f);
-        Gizmos.DrawSphere(head.transform.position + (Vector3)pointCastOffset2,.2f);
-    }
+    // void OnDrawGizmos() {
+    //     Gizmos.DrawSphere(head.transform.position + (Vector3)pointCastOffset1,.2f);
+    //     Gizmos.DrawSphere(head.transform.position + (Vector3)pointCastOffset2,.2f);
+    // }
 }

@@ -61,6 +61,7 @@ public class PlayerInteraction : MonoBehaviour
             EnemyData ED = other.gameObject.GetComponent<EnemyData>();
             if (ED == null) return;
             if (ED.isDealingDamage()) {
+                Debug.Log(ED.getKnockback());
                 pHealth.takeDamage(ED.getDamage(), ED.getKnockback());
             }
         }
