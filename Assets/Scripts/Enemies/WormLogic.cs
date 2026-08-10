@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class WormLogic : MonoBehaviour
+public class WormLogic : EnemyData
 {
     public GameObject head;
     public GameObject segmentPrefab;
@@ -24,13 +24,20 @@ public class WormLogic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        initialize();
         world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
         segments = new GameObject[wormLength];
         for(int i=0; i<wormLength; i++) {
             GameObject localSegment = Instantiate(segmentPrefab, this.transform);
             localSegment.transform.position = new Vector2(transform.position.x-(segmentLength*(i+1)*dir+.25f), transform.position.y);
             segments[i] = localSegment;
+            localSegment.GetComponent<EnemyData>().setDamage(damage);
+            localSegment.GetComponent<EnemyData>().setKnockback(knockback);
         }
+    }
+
+    public override void initialize() {
+        knockback = new Vector2(dir*knockback.x,knockback.y);
     }
 
     // Update is called once per frame
@@ -65,6 +72,7 @@ public class WormLogic : MonoBehaviour
     }
 
     public void removeTile(Vector2 pointCastOffset) {
+        Debug.Log(knockback);
         world.destroyTile(head.transform.position + (Vector3)pointCastOffset);
     }
 
