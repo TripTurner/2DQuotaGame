@@ -18,7 +18,7 @@ public class ChunkInitialization : MonoBehaviour
 
     public Openings openings;
     private TileDestroyer grid;
-    public List<GameObject> markerList;
+    public List<MarkerData> markerList;
     public bool hasBaseTilemap = true;
     public Tilemap baseTilemap;
     public bool hasDangerTilemap = true;
@@ -26,6 +26,9 @@ public class ChunkInitialization : MonoBehaviour
 
     void Awake() {
         grid = gameObject.GetComponentInParent<TileDestroyer>();
+        markerList = new List<MarkerData>(
+            GetComponentsInChildren<MarkerData>()
+        );
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,16 +62,8 @@ public class ChunkInitialization : MonoBehaviour
                 parentDangerTilemap.SetTile(point + Vector3Int.FloorToInt(transform.position),tile);
             }
         }
-        foreach (GameObject GO in markerList) {
-            MarkerData MD = GO.GetComponent<MarkerData>();
-            GameObject toInstantiate = Instantiate(MD.prefab,MD.transform.position,Quaternion.identity,parentGameObject.transform);
-            if (MD.type=="ladder") {
-                toInstantiate.GetComponent<SpriteRenderer>().size = new Vector2(1,MD.float1);
-                toInstantiate.GetComponent<BoxCollider2D>().size = new Vector2(0.8f,MD.float1);
-            } else if (MD.type=="bomb") {
-                toInstantiate.GetComponent<BombLogic>().setExplodeTimer(MD.float1);
-                toInstantiate.GetComponent<BombLogic>().explodeRadius = MD.float2;
-            }
+        foreach (MarkerData MD in markerList) {
+            MD.createObject();
         }
         Destroy(gameObject);
     }

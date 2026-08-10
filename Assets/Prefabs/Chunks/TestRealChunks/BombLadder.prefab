@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1109947367250760662}
-  - component: {fileID: 4864974153307986772}
+  - component: {fileID: 4717115377384702448}
   m_Layer: 10
   m_Name: BombMarker
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1109854522898090658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4864974153307986772
+--- !u!114 &4717115377384702448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,13 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 271910701329819540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46af52f92d333a545864bb6278e0cfed, type: 3}
+  m_Script: {fileID: 11500000, guid: 575d33cf004c18742a5107758cb2bb99, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MarkerData
-  prefab: {fileID: 7625004433112884628, guid: 554f133797f65e94593591f5ca88a491, type: 3}
-  type: bomb
-  float1: 1
-  float2: 2
+  m_EditorClassIdentifier: Assembly-CSharp::BombMarker
+  bombGO: {fileID: 7625004433112884628, guid: 554f133797f65e94593591f5ca88a491, type: 3}
+  explodeTimer: 2
+  explodeRadius: 3
 --- !u!1 &7490659875393040935
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +56,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7664806673940152483}
-  - component: {fileID: 2798503622200788224}
+  - component: {fileID: 496193179627059017}
   m_Layer: 10
   m_Name: LadderMarker
   m_TagString: Untagged
@@ -80,7 +79,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1109854522898090658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2798503622200788224
+--- !u!114 &496193179627059017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,13 +88,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7490659875393040935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46af52f92d333a545864bb6278e0cfed, type: 3}
+  m_Script: {fileID: 11500000, guid: 01557c5d0bdae3046a1487cfe18873d3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MarkerData
-  prefab: {fileID: 8903771164601484361, guid: 2ff5664383553054bbb15f9429926c4f, type: 3}
-  type: ladder
-  float1: 4
-  float2: 0
+  m_EditorClassIdentifier: Assembly-CSharp::LadderMarker
+  ladderGO: {fileID: 8903771164601484361, guid: 2ff5664383553054bbb15f9429926c4f, type: 3}
+  height: 4
 --- !u!1 &8800973219796628991
 GameObject:
   m_ObjectHideFlags: 0

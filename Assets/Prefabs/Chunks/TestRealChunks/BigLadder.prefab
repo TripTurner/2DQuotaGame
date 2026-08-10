@@ -638,7 +638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8400063109315482077}
-  - component: {fileID: 5074622198190652945}
+  - component: {fileID: 4712017918831660190}
   m_Layer: 10
   m_Name: LadderMarker
   m_TagString: Untagged
@@ -661,7 +661,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8812128983975404635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5074622198190652945
+--- !u!114 &4712017918831660190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -670,13 +670,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1618260465667021229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46af52f92d333a545864bb6278e0cfed, type: 3}
+  m_Script: {fileID: 11500000, guid: 01557c5d0bdae3046a1487cfe18873d3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MarkerData
-  prefab: {fileID: 8903771164601484361, guid: 2ff5664383553054bbb15f9429926c4f, type: 3}
-  type: ladder
-  float1: 11
-  float2: 0
+  m_EditorClassIdentifier: Assembly-CSharp::LadderMarker
+  ladderGO: {fileID: 8903771164601484361, guid: 2ff5664383553054bbb15f9429926c4f, type: 3}
+  height: 11
 --- !u!1 &4783716372387750188
 GameObject:
   m_ObjectHideFlags: 0

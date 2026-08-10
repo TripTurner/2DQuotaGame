@@ -44,10 +44,10 @@ public class TileDestroyer : MonoBehaviour
             parentDangerTilemap.SetTile(dangerCellPos,null);
             // Debug.Log($"Destroyed dangerous tile at {dangerCellPos}");
         }
-        Vector3Int castLocationCell = parentTilemap.WorldToCell(pos);
-        Vector3 castLocation = grid.GetCellCenterWorld(castLocationCell);
-        Collider2D hit = Physics2D.OverlapPoint(castLocation, destructLayer);
-        if (hit!=null) Destroy(hit.gameObject);
+        // Vector3Int castLocationCell = parentTilemap.WorldToCell(pos);
+        // Vector3 castLocation = grid.GetCellCenterWorld(castLocationCell);
+        // Collider2D hit = Physics2D.OverlapPoint(castLocation, destructLayer);
+        // if (hit!=null) Destroy(hit.gameObject);
     }
 
     public void destroyTile(Vector3Int pos) {

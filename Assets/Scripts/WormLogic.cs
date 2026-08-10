@@ -18,9 +18,13 @@ public class WormLogic : MonoBehaviour
     public Vector2 pointCastOffset2 = new Vector2(.75f, -.375f);
     public Vector2 pointCastOffset3 = new Vector2(.75f, 0);
     public LayerMask destructLayer;
+
+    public TileDestroyer world;
+    private int frames;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
         segments = new GameObject[wormLength];
         for(int i=0; i<wormLength; i++) {
             GameObject localSegment = Instantiate(segmentPrefab, this.transform);
@@ -40,23 +44,28 @@ public class WormLogic : MonoBehaviour
             segments[i].transform.position = new Vector2(localX,transform.position.y + sineHeight * Mathf.Sin(localX/sinePeriod));
         }
 
-        Collider2D hit1 = Physics2D.OverlapCircle((Vector2)head.transform.position + pointCastOffset1,.2f, destructLayer);
-        if (hit1!=null) {
-            // Debug.Log("Hit with hit1");
-            hit1.gameObject.GetComponent<TileDestroyer>()?.destroyTile(head.transform.position + (Vector3)pointCastOffset1);
+        frames++;
+        if (frames==10) {
+            frames = 0;
+            // checkHit(pointCastOffset1);
+            // checkHit(pointCastOffset2);
+            // checkHit(pointCastOffset3);
+            removeTile(pointCastOffset1);
+            removeTile(pointCastOffset2);
+            removeTile(pointCastOffset3);
         }
+    }
 
-        Collider2D hit2 = Physics2D.OverlapCircle((Vector2)head.transform.position + pointCastOffset2,.2f, destructLayer);
-        if (hit2!=null) {
-            // Debug.Log("Hit with hit2");
-            hit2.gameObject.GetComponent<TileDestroyer>()?.destroyTile(head.transform.position + (Vector3)pointCastOffset2);
+    public void checkHit(Vector2 pointCastOffset) {
+        Collider2D hit = Physics2D.OverlapCircle((Vector2)head.transform.position + pointCastOffset,.2f, destructLayer);
+        if (hit!=null) {
+            // Debug.Log("Hit with hit1");
+            hit.gameObject.GetComponent<TileDestroyer>()?.destroyTile(head.transform.position + (Vector3)pointCastOffset);
         }
-        
-        Collider2D hit3 = Physics2D.OverlapCircle((Vector2)head.transform.position + pointCastOffset3,.2f, destructLayer);
-        if (hit3!=null) {
-            // Debug.Log("Hit with hit3");
-            hit3.gameObject.GetComponent<TileDestroyer>()?.destroyTile(head.transform.position + (Vector3)pointCastOffset3);
-        }
+    }
+
+    public void removeTile(Vector2 pointCastOffset) {
+        world.destroyTile(head.transform.position + (Vector3)pointCastOffset);
     }
 
     void OnDrawGizmos() {
