@@ -15,13 +15,16 @@ public class LaserGuyLogic : EnemyData
     private Vector2 laserOrigin;
     private Vector2 aimDir;
     public LayerMask groundLayer;
+    public LayerMask playerLayer;
     private GameObject player;
     [SerializeField] private LineRenderer laserLine;
+    public TileDestroyer world;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         laserLine.positionCount = 2;
+        world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
     }
 
     // Update is called once per frame
@@ -79,6 +82,11 @@ public class LaserGuyLogic : EnemyData
     }
 
     public void fireLaser() {
+        RaycastHit2D playerCast = Physics2D.Raycast(laserOrigin,aimDir,laserDistance,playerLayer);
+        if (playerCast.collider != null) {
+            player.GetComponent<PlayerHealth>().takeDamage(damage, aimDir.normalized * knockbackFloat);
+        }
+        world.destroyTilesInLine(laserOrigin,laserOrigin+aimDir*laserDistance);
         Debug.Log("LASER FIRED");
     }
 }

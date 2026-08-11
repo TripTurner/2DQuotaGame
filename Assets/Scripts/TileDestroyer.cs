@@ -54,6 +54,64 @@ public class TileDestroyer : MonoBehaviour
         destroyTile((Vector3)pos);
     }
 
+    public void destroyTile(Vector2 pos) {
+        destroyTile((Vector3)pos);
+    }
+
+    public void destroyTile(Vector2Int pos) {
+        destroyTile((Vector3Int)pos);
+    }
+
+    public void destroyTilesInLine(Vector2 startPos, Vector2 endPos) {
+        List<Vector2Int> cellsToDestroy = new List<Vector2Int>();
+
+        Vector2Int currentCell = new Vector2Int(Mathf.FloorToInt(startPos.x), Mathf.FloorToInt(startPos.y));
+        Vector2Int endCell = new Vector2Int(Mathf.FloorToInt(endPos.x), Mathf.FloorToInt(endPos.y));
+        cellsToDestroy.Add(currentCell);
+        Vector2 dir = endPos - startPos;
+        int stepX = dir.x >0? 1: -1;
+        int stepY = dir.y >0? 1: -1;
+
+        float tMaxX = (stepX > 0) ? (currentCell.x + 1 - startPos.x) : (startPos.x - currentCell.x);
+        float tMaxY = (stepY > 0) ? (currentCell.y + 1 - startPos.y) : (startPos.y - currentCell.y);
+
+        float tDeltaX = Mathf.Abs(1f / (Mathf.Approximately(dir.x, 0) ? 0.00001f : dir.x));
+        float tDeltaY = Mathf.Abs(1f / (Mathf.Approximately(dir.y, 0) ? 0.00001f : dir.y));
+
+        tMaxX *= tDeltaX;
+        tMaxY *= tDeltaY;
+
+        while (currentCell != endCell)
+        {
+            if (tMaxX < tMaxY)
+            {
+                tMaxX += tDeltaX;
+                currentCell.x += stepX;
+            }
+            else if (tMaxX > tMaxY)
+            {
+                tMaxY += tDeltaY;
+                currentCell.y += stepY;
+            }
+            else
+            {
+                cellsToDestroy.Add(new Vector2Int(currentCell.x + stepX, currentCell.y));
+                cellsToDestroy.Add(new Vector2Int(currentCell.x, currentCell.y + stepY));
+                
+                tMaxX += tDeltaX;
+                tMaxY += tDeltaY;
+                currentCell.x += stepX;
+                currentCell.y += stepY;
+            }
+
+            cellsToDestroy.Add(currentCell);
+        }
+
+        foreach (Vector2Int cell in cellsToDestroy) {
+            destroyTile(cell);
+        }
+    }
+
     // public void addMap(GameObject map) {
     //     tilemaps.Add(map.GetComponent<Tilemap>());
     // }
