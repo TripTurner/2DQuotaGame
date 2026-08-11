@@ -5,6 +5,7 @@ public class EnemyData : MonoBehaviour
     [SerializeField] protected float damage;
     [SerializeField] protected bool dealingDamage = true;
     [SerializeField] protected Vector2 knockback = new Vector2(0,1);
+    [SerializeField] protected float health;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
