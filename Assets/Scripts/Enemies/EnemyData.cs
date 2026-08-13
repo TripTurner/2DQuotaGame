@@ -7,6 +7,7 @@ public class EnemyData : MonoBehaviour, IDamageable
     [SerializeField] protected Vector2 knockback = new Vector2(0,1);
     [SerializeField] protected float knockbackFloat = 10;
     [SerializeField] protected float health;
+    protected IDamageable parent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +21,7 @@ public class EnemyData : MonoBehaviour, IDamageable
     }
 
     public virtual void initialize() {
+        parent = GetComponentInParent<IDamageable>();
         //knockback = new Vector2(0,1);
     }
 
@@ -48,10 +50,17 @@ public class EnemyData : MonoBehaviour, IDamageable
     }
 
     public virtual void takeDamage(float damage) {
-        health -= damage;
+        takeDamage(damage, new Vector2(0,0));
+    }
+
+    public virtual void childDead(EnemyData child) {
+
     }
 
     public virtual void takeDamage(float damage, Vector2 knockback) {
         health -= damage;
+        if (health<=0) {
+            parent.childDead(this);
+        }
     }
 }

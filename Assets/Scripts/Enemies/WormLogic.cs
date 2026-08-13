@@ -69,6 +69,21 @@ public class WormLogic : EnemyData
         //}
     }
 
+    public override void childDead(EnemyData child) {
+        if (child == head) {
+            //die
+        } else {
+            for (int i=wormLength-1; i>=0; i--) {
+                if (segments[i]==child) {
+                    for (int j=i; j<wormLength; j++) {
+                        Destroy(segments[j]);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     public void checkHit(Vector2 pointCastOffset) {
         Collider2D hit = Physics2D.OverlapCircle((Vector2)head.transform.position + pointCastOffset,.2f, destructLayer);
         if (hit!=null) {

@@ -96,6 +96,10 @@ public class LaserGuyLogic : MonoBehaviour, IDamageable
 
     }
 
+    public void childDead(EnemyData child) {
+        //die
+    }
+
     public void fireLaser() {
         RaycastHit2D[] hitCast = Physics2D.RaycastAll(laserOrigin,aimDir,laserDistance,playerLayer);
         if (hitCast != null) {

@@ -46,4 +46,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             pMovement.damagePlayer(knockback);
         }
     }
+
+    public void childDead(EnemyData child) {
+        
+    }
 }
