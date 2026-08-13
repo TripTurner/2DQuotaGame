@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4934640153933815227}
   - component: {fileID: 3864582695048760019}
   - component: {fileID: -7960910015421175040}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Segment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,8 @@ MonoBehaviour:
   damage: 0
   dealingDamage: 1
   knockback: {x: 0, y: 0}
+  knockbackFloat: 10
+  health: 0
 --- !u!61 &-7960910015421175040
 BoxCollider2D:
   m_ObjectHideFlags: 0

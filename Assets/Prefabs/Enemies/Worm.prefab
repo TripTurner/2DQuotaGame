@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8291836659716106053}
   - component: {fileID: 2214309199288526648}
   - component: {fileID: 8728345378222703886}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +153,8 @@ MonoBehaviour:
   damage: 0
   dealingDamage: 1
   knockback: {x: 0, y: 1}
+  knockbackFloat: 10
+  health: 0
 --- !u!1 &5460513528863605891
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +203,8 @@ MonoBehaviour:
   damage: 10
   dealingDamage: 1
   knockback: {x: 4, y: 10}
+  knockbackFloat: 10
+  health: 0
   head: {fileID: 5251863454978705413}
   segmentPrefab: {fileID: 8852176503411046631, guid: e163204a166784a459129fc1afdad3de, type: 3}
   wormSpeed: 6

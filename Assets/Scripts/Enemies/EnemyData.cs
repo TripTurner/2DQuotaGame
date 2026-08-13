@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyData : MonoBehaviour
+public class EnemyData : MonoBehaviour, IDamageable
 {
     [SerializeField] protected float damage;
     [SerializeField] protected bool dealingDamage = true;
@@ -45,5 +45,13 @@ public class EnemyData : MonoBehaviour
 
     public virtual void setKnockback(Vector2 newKnockback) {
         knockback = newKnockback;
+    }
+
+    public virtual void takeDamage(float damage) {
+        health -= damage;
+    }
+
+    public virtual void takeDamage(float damage, Vector2 knockback) {
+        health -= damage;
     }
 }
