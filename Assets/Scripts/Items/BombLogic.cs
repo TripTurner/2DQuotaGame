@@ -7,6 +7,7 @@ public class BombLogic : ItemLogic
     [SerializeField] private float maxExplodeTimer;
     [SerializeField] private float explodeForce;
     public LayerMask destructLayer;
+    public LayerMask damageLayer;
     public LayerMask hitLayer;
     public float explodeRadius;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,8 +46,9 @@ public class BombLogic : ItemLogic
         }
         hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius, hitLayer);
         foreach (Collider2D c in hits) {
-            if (c.gameObject.CompareTag("Player")) {
-                c.gameObject.GetComponent<PlayerHealth>().takeDamage(20, (c.gameObject.transform.position - transform.position).normalized * explodeForce);
+            if ((damageLayer & (1<<c.gameObject.layer)) != 0) {
+                //c.gameObject.GetComponent<PlayerHealth>().takeDamage(20, (c.gameObject.transform.position - transform.position).normalized * explodeForce);
+                c.GetComponent<EnemyData>().takeDamage(20, (c.gameObject.transform.position - transform.position).normalized * explodeForce);
             } else {
                 Rigidbody2D otherRB = c.gameObject.GetComponent<Rigidbody2D>();
                 if (otherRB!=null) otherRB.linearVelocity = (c.gameObject.transform.position - transform.position).normalized * explodeForce;

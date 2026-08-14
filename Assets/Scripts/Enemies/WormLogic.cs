@@ -72,7 +72,7 @@ public class WormLogic : EnemyData
 
     public override void childDead(EnemyData child) {
         if (child.gameObject == head) {
-            //die
+            Destroy(gameObject);
         } else {
             for (int i=segments.Count-1; i>=0; i--) {
                 if (segments[i]==child.gameObject) {

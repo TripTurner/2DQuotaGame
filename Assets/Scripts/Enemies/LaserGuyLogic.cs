@@ -97,7 +97,7 @@ public class LaserGuyLogic : MonoBehaviour, IDamageable
     }
 
     public void childDead(EnemyData child) {
-        //die
+        Destroy(gameObject);
     }
 
     public void fireLaser() {

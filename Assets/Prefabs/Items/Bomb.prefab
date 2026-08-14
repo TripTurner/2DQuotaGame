@@ -279,7 +279,10 @@ MonoBehaviour:
   destructLayer:
     serializedVersion: 2
     m_Bits: 1024
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   hitLayer:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 4160
   explodeRadius: 4
