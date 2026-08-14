@@ -21,7 +21,8 @@ public class EnemyData : MonoBehaviour, IDamageable
     }
 
     public virtual void initialize() {
-        parent = GetComponentInParent<IDamageable>();
+        parent = transform.parent.gameObject.GetComponent<IDamageable>();
+        Debug.Log(parent);
         //knockback = new Vector2(0,1);
     }
 
@@ -47,6 +48,14 @@ public class EnemyData : MonoBehaviour, IDamageable
 
     public virtual void setKnockback(Vector2 newKnockback) {
         knockback = newKnockback;
+    }
+
+    public virtual void setHealth(float hp) {
+        health = hp;
+    }
+
+    public virtual float getHealth() {
+        return health;
     }
 
     public virtual void takeDamage(float damage) {

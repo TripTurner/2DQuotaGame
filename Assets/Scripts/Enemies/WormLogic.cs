@@ -5,7 +5,7 @@ public class WormLogic : EnemyData
 {
     public GameObject head;
     public GameObject segmentPrefab;
-    private GameObject[] segments;
+    private List<GameObject> segments;
     public float wormSpeed;
     public int wormLength;
     public float dir = 1;
@@ -24,6 +24,7 @@ public class WormLogic : EnemyData
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        segments = new List<GameObject>(new GameObject[wormLength]);
         initialize();
         pointCastOffset1 = new Vector2(pointCastOffset1.x*dir, pointCastOffset1.y);
         pointCastOffset2 = new Vector2(pointCastOffset2.x*dir, pointCastOffset2.y);
@@ -32,7 +33,7 @@ public class WormLogic : EnemyData
         world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
         head.GetComponent<EnemyData>().setDamage(damage);
         head.GetComponent<EnemyData>().setKnockback(knockback);
-        segments = new GameObject[wormLength];
+        head.GetComponent<EnemyData>().setHealth(wormLength*5);
         for(int i=0; i<wormLength; i++) {
             GameObject localSegment = Instantiate(segmentPrefab, this.transform);
             localSegment.transform.position = new Vector2(transform.position.x-(segmentLength*(i+1)*dir+.25f), transform.position.y);
@@ -52,7 +53,7 @@ public class WormLogic : EnemyData
         transform.position = new Vector2(transform.position.x+wormSpeed*Time.deltaTime*dir, transform.position.y);
         head.transform.position = new Vector2(transform.position.x,transform.position.y + sineHeight * Mathf.Sin(transform.position.x/sinePeriod));
         
-        for (int i=0; i<wormLength; i++) {
+        for (int i=0; i<segments.Count; i++) {
             float localX = transform.position.x -(segmentLength*(i+1)*dir);
             segments[i].transform.position = new Vector2(localX,transform.position.y + sineHeight * Mathf.Sin(localX/sinePeriod));
         }
@@ -70,16 +71,21 @@ public class WormLogic : EnemyData
     }
 
     public override void childDead(EnemyData child) {
-        if (child == head) {
+        if (child.gameObject == head) {
             //die
         } else {
-            for (int i=wormLength-1; i>=0; i--) {
-                if (segments[i]==child) {
-                    for (int j=i; j<wormLength; j++) {
+            for (int i=segments.Count-1; i>=0; i--) {
+                if (segments[i]==child.gameObject) {
+                    for (int j=segments.Count-1; j>=i; j--) {
                         Destroy(segments[j]);
+                        segments.RemoveAt(j);
                     }
                     break;
                 }
+            }
+            float newHeadHealth = segments.Count * 5;
+            if (head.GetComponent<EnemyData>().getHealth() > newHeadHealth) {
+                head.GetComponent<EnemyData>().setHealth(newHeadHealth);
             }
         }
     }
