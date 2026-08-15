@@ -57,7 +57,7 @@ public class PlayerInteraction : MonoBehaviour
         }
 
         if ((enemyMask & (1<<other.gameObject.layer)) != 0) {
-            Debug.Log("Hit enemy");
+            // Debug.Log("Hit enemy");
             EnemyData ED = other.gameObject.GetComponent<EnemyData>();
             if (ED == null) return;
             if (ED.isDealingDamage()) {

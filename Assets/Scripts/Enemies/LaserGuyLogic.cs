@@ -110,6 +110,6 @@ public class LaserGuyLogic : MonoBehaviour, IDamageable
             }
         }
         world.destroyTilesInLine(laserOrigin,laserOrigin+aimDir*laserDistance);
-        Debug.Log("LASER FIRED");
+        // Debug.Log("LASER FIRED");
     }
 }

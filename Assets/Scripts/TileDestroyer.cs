@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections;
 using System.Collections.Generic;
 
 public class TileDestroyer : MonoBehaviour
@@ -9,6 +10,10 @@ public class TileDestroyer : MonoBehaviour
     private Grid grid;
     [SerializeField] private Tilemap parentTilemap;
     [SerializeField] private Tilemap parentDangerTilemap;
+    [SerializeField] private TileBase dangerTile;
+    [SerializeField] private TileBase normalTile;
+
+
 
     void Awake() {
         grid = GetComponent<Grid>();
@@ -60,6 +65,57 @@ public class TileDestroyer : MonoBehaviour
 
     public void destroyTile(Vector2Int pos) {
         destroyTile((Vector3Int)pos);
+    }
+
+    public void switchTile(Vector3Int pos, string type, bool temp, float time = 0) {
+        switchTile((Vector3) pos, type, temp, time);
+    }
+    
+    public void switchTile(Vector2 pos, string type, bool temp, float time = 0) {
+        switchTile((Vector3) pos, type, temp, time);
+    }
+
+    public void switchTile(Vector2Int pos, string type, bool temp, float time = 0) {
+        switchTile((Vector3Int) pos, type, temp, time);
+    }
+
+    public void switchTile(Vector3 pos, string type, bool temp, float time = 0) {
+        // Debug.Log($"Switching tile to {type}");
+        if (type=="danger") {
+            // Debug.Log($"Confirming type is {type}");
+            Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+            // Debug.Log($"Changed position {pos} to cell position {cellPos}");
+            if (parentTilemap.HasTile(cellPos)) {
+                // Debug.Log("ParentTilemap has it");
+                parentTilemap.SetTile(cellPos,null);
+                parentDangerTilemap.SetTile(cellPos,dangerTile);
+                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                // Debug.Log("dw i switched the tile for you bro");
+            }
+        } else if (type=="normal") {
+            Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
+            if (parentDangerTilemap.HasTile(dangerCellPos)) {
+                parentDangerTilemap.SetTile(dangerCellPos,null);
+                parentTilemap.SetTile(dangerCellPos,normalTile);
+                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+            }
+        } else if (type=="destroy") {
+            Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+            if (parentTilemap.HasTile(cellPos)) {
+                parentTilemap.SetTile(cellPos,null);
+                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+            }
+            Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
+            if (parentDangerTilemap.HasTile(dangerCellPos)) {
+                parentDangerTilemap.SetTile(dangerCellPos,null);
+                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+            }
+        }
+    }
+
+    IEnumerator runWithDelay(float delay, System.Action action) {
+        yield return new WaitForSeconds(delay);
+        action();
     }
 
     public void destroyTilesInLine(Vector2 startPos, Vector2 endPos) {
