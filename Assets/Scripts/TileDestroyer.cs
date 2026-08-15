@@ -13,6 +13,8 @@ public class TileDestroyer : MonoBehaviour
     [SerializeField] private TileBase dangerTile;
     [SerializeField] private TileBase normalTile;
 
+    private Dictionary<Vector3Int, Coroutine> tempTileChanges = new Dictionary<Vector3Int,Coroutine>();
+
 
 
     void Awake() {
@@ -80,35 +82,59 @@ public class TileDestroyer : MonoBehaviour
     }
 
     public void switchTile(Vector3 pos, string type, bool temp, float time = 0) {
-        // Debug.Log($"Switching tile to {type}");
-        if (type=="danger") {
-            // Debug.Log($"Confirming type is {type}");
-            Vector3Int cellPos = parentTilemap.WorldToCell(pos);
-            // Debug.Log($"Changed position {pos} to cell position {cellPos}");
-            if (parentTilemap.HasTile(cellPos)) {
-                // Debug.Log("ParentTilemap has it");
+        Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+        Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
+
+        if (parentTilemap.HasTile(cellPos)) {
+            if (type=="danger") {
                 parentTilemap.SetTile(cellPos,null);
                 parentDangerTilemap.SetTile(cellPos,dangerTile);
-                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
-                // Debug.Log("dw i switched the tile for you bro");
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
+            } else if (type=="normal") {
+                if (tempTileChanges.ContainsKey(dangerCellPos)) {
+                    StopCoroutine(tempTileChanges[dangerCellPos]);
+                    tempTileChanges.Remove(dangerCellPos);
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+                    tempTileChanges[dangerCellPos] = newRoutine;
+                }
+            } else if (type=="destroy") {
+                parentTilemap.SetTile(cellPos,null);
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
             }
-        } else if (type=="normal") {
-            Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
-            if (parentDangerTilemap.HasTile(dangerCellPos)) {
+        } else if (parentDangerTilemap.HasTile(dangerCellPos)) {
+            if (type=="normal") {
                 parentDangerTilemap.SetTile(dangerCellPos,null);
                 parentTilemap.SetTile(dangerCellPos,normalTile);
-                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
-            }
-        } else if (type=="destroy") {
-            Vector3Int cellPos = parentTilemap.WorldToCell(pos);
-            if (parentTilemap.HasTile(cellPos)) {
-                parentTilemap.SetTile(cellPos,null);
-                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
-            }
-            Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
-            if (parentDangerTilemap.HasTile(dangerCellPos)) {
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+                    tempTileChanges[dangerCellPos] = newRoutine;
+                }
+            } else if (type=="danger") {
+                if (tempTileChanges.ContainsKey(cellPos)) {
+                    StopCoroutine(tempTileChanges[cellPos]);
+                    tempTileChanges.Remove(cellPos);                    
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
+            } else if (type=="destroy") {
                 parentDangerTilemap.SetTile(dangerCellPos,null);
-                if (temp) StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
+            }
+        } else if (type=="destroy") { //add logic for traps later when I figure that out
+            if (tempTileChanges.ContainsKey(cellPos)) {
+                StopCoroutine(tempTileChanges[cellPos]);
+                tempTileChanges.Remove(cellPos);
+                Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                tempTileChanges[cellPos] = newRoutine;
             }
         }
     }
