@@ -22,7 +22,7 @@ public class EnemyData : MonoBehaviour, IDamageable
 
     public virtual void initialize() {
         parent = transform.parent.gameObject.GetComponent<IDamageable>();
-        Debug.Log(parent);
+        // Debug.Log(parent);
         //knockback = new Vector2(0,1);
     }
 

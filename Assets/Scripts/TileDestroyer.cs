@@ -102,6 +102,7 @@ public class TileDestroyer : MonoBehaviour
                 }
             } else if (type=="destroy") {
                 parentTilemap.SetTile(cellPos,null);
+                Debug.Log("Temporarily destroying");
                 if (temp) {
                     Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
                     tempTileChanges[cellPos] = newRoutine;
@@ -129,12 +130,26 @@ public class TileDestroyer : MonoBehaviour
                     tempTileChanges[cellPos] = newRoutine;
                 }
             }
-        } else if (type=="destroy") { //add logic for traps later when I figure that out
-            if (tempTileChanges.ContainsKey(cellPos)) {
-                StopCoroutine(tempTileChanges[cellPos]);
-                tempTileChanges.Remove(cellPos);
-                Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
-                tempTileChanges[cellPos] = newRoutine;
+        } else {
+            if (type=="normal") {
+                parentTilemap.SetTile(cellPos,normalTile);
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"destroy",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
+            } else if (type=="danger") {
+                parentDangerTilemap.SetTile(dangerCellPos,dangerTile);
+                if (temp) {
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"destroy",false)));
+                    tempTileChanges[dangerCellPos] = newRoutine;
+                }
+            } else if (type=="destroy") { //add logic for traps later when I figure that out
+                if (tempTileChanges.ContainsKey(cellPos)) {
+                    StopCoroutine(tempTileChanges[cellPos]);
+                    tempTileChanges.Remove(cellPos);
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                    tempTileChanges[cellPos] = newRoutine;
+                }
             }
         }
     }
