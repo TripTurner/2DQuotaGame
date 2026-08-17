@@ -69,6 +69,32 @@ public class TileDestroyer : MonoBehaviour
         destroyTile((Vector3Int)pos);
     }
 
+    public bool cellTypeAt(Vector2 pos, string type) {
+        return cellTypeAt((Vector3)pos, type);
+    }
+
+    public bool cellTypeAt(Vector2Int pos, string type) {
+        return cellTypeAt((Vector3Int)pos, type);
+    }
+
+    public bool cellTypeAt(Vector3Int pos, string type) {
+        return cellTypeAt((Vector3)pos, type);
+    }
+
+    public bool cellTypeAt(Vector3 pos, string type) {
+        Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+        Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
+        if (type == "normal" && parentTilemap.HasTile(cellPos)) {
+            return true;
+        } else if (type=="danger" && parentDangerTilemap.HasTile(dangerCellPos)) {
+            return true;
+        } else if (type=="destroy") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void switchTile(Vector3Int pos, string type, bool temp, float time = 0) {
         switchTile((Vector3) pos, type, temp, time);
     }

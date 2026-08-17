@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ItemDamage : MonoBehaviour
 {
-    [SerializeField] private bool dealsDamage = true;
+    [SerializeField] private bool dealsDamage = false;
     private Rigidbody2D rb;
     [SerializeField] private float damage = 10;
-    [SerializeField] private float damageSpeed = 3;
+    [SerializeField] private float damageSpeed = 18;
     public LayerMask damageLayer;
     private GameObject owner;
-    [SerializeField] private float maxOwnershipTime;
+    [SerializeField] private float maxOwnershipTime = .5f;
     private float ownershipTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

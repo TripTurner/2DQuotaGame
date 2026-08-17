@@ -34,14 +34,14 @@ public class ItemLogic : MonoBehaviour
         return held;
     }
 
-    public void interact(GameObject other) {
+    public virtual void interact(GameObject other) {
         transform.GetChild(0).gameObject.SetActive(false);
         held = true;
         stored = false;
         holder = other;
     }
 
-    public void drop() {
+    public virtual void drop() {
         transform.GetChild(0).gameObject.SetActive(true);
         held = false;
         stored = false;
@@ -49,7 +49,7 @@ public class ItemLogic : MonoBehaviour
         rb.linearVelocity = otherVel + new Vector2(Mathf.Sign(otherVel.x)*dropSpeed,0);
     }
 
-    public void drop(Vector2 addVel) {
+    public virtual void drop(Vector2 addVel) {
         transform.GetChild(0).gameObject.SetActive(true);
         held = false;
         stored = false;
