@@ -53,8 +53,8 @@ public class TileDestroyer : MonoBehaviour
         }
         // Vector3Int castLocationCell = parentTilemap.WorldToCell(pos);
         // Vector3 castLocation = grid.GetCellCenterWorld(castLocationCell);
-        // Collider2D hit = Physics2D.OverlapPoint(castLocation, destructLayer);
-        // if (hit!=null) Destroy(hit.gameObject);
+        Collider2D hit = Physics2D.OverlapPoint(pos, destructLayer);
+        if (hit!=null) Destroy(hit.gameObject);
     }
 
     public void destroyTile(Vector3Int pos) {

@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
     private List<ItemLogic> touching = new List<ItemLogic>();
     public LayerMask ladderMask;
     public string dangerTilemapTag = "DangerTilemap";
+    public LayerMask hazardMask;
     public LayerMask enemyMask;
     private PlayerInventory inventory;
     private PlayerMovement pMovement;
@@ -64,6 +65,15 @@ public class PlayerInteraction : MonoBehaviour
                 // Debug.Log(ED.getKnockback());
                 pHealth.takeDamage(ED.getDamage(), ED.getKnockback());
             }
+        }
+
+        if ((hazardMask & (1<<other.gameObject.layer)) != 0) {
+            float damage = 5;
+            if (other.gameObject.GetComponent<HazardData>()!=null) {
+                damage = other.gameObject.GetComponent<HazardData>().damage;
+            }
+            pHealth.takeDamage(damage, (new Vector2(Random.Range(-0.5f,1f),5f)).normalized);
+            Debug.Log("Touched hazard");
         }
         // if ((ladderMask & (1<<other.gameObject.layer)) != 0) {
         //     LadderLogic otherItem = other.gameObject.GetComponentInParent<LadderLogic>();
