@@ -10,9 +10,11 @@ public class BombLogic : ItemLogic
     public LayerMask damageLayer;
     public LayerMask hitLayer;
     public float explodeRadius;
+    private TileDestroyer world;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
         explodeTimer = maxExplodeTimer;
     }
 
@@ -27,7 +29,7 @@ public class BombLogic : ItemLogic
     }
 
     public void explode() {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius, destructLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius, hitLayer);
         int range = Mathf.CeilToInt(explodeRadius);
         List<Vector3Int> breakPositions = new List<Vector3Int>();
         Vector3Int bombPos = Vector3Int.RoundToInt(transform.position);
@@ -39,12 +41,12 @@ public class BombLogic : ItemLogic
                 }
             }
         }
-        foreach (Collider2D c in hits) {
+        // foreach (Collider2D c in hits) {
             foreach (Vector3Int v in breakPositions) {
-                c.GetComponent<TileDestroyer>()?.destroyTile(v);
+                world.destroyTile(v);
             }
-        }
-        hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius, hitLayer);
+        // }
+        // hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius, hitLayer);
         foreach (Collider2D c in hits) {
             if ((damageLayer & (1<<c.gameObject.layer)) != 0) {
                 //c.gameObject.GetComponent<PlayerHealth>().takeDamage(20, (c.gameObject.transform.position - transform.position).normalized * explodeForce);

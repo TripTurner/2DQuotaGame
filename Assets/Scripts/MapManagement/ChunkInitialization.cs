@@ -24,6 +24,9 @@ public class ChunkInitialization : MonoBehaviour
     public bool hasDangerTilemap = true;
     public Tilemap dangerTilemap;
 
+    public bool hasTraps = false;
+    public List<TrapPlacement> trapScripts;
+
     void Awake() {
         grid = gameObject.GetComponentInParent<TileDestroyer>();
         markerList = new List<MarkerData>(
@@ -65,6 +68,16 @@ public class ChunkInitialization : MonoBehaviour
         foreach (MarkerData MD in markerList) {
             MD.createObject();
         }
+        if (hasTraps) {
+            foreach(TrapPlacement trap in trapScripts) {
+                trap.placeTraps();
+            }
+        }
+
         Destroy(gameObject);
     }
+
+    // public void placeTrap(GameObject trap, int x, int y) {
+
+    // }
 }

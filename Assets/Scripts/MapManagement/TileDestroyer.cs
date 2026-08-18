@@ -32,6 +32,11 @@ public class TileDestroyer : MonoBehaviour
 
     }
 
+    public void placeTrap(GameObject trap, float x, float y) {
+        destroyTile(new Vector2(x,y));
+        Instantiate(trap, new Vector2(x, y), Quaternion.identity);
+    }
+
     public void destroyTile(Vector3 pos) {
         // foreach (Tilemap tmap in tilemaps) {
         //     Vector3Int cellPos = tmap.WorldToCell(pos);
@@ -44,11 +49,13 @@ public class TileDestroyer : MonoBehaviour
         Vector3Int cellPos = parentTilemap.WorldToCell(pos);
         if (parentTilemap.HasTile(cellPos)) {
             parentTilemap.SetTile(cellPos,null);
+            return;
             // Debug.Log($"Destroyed normal tile at {cellPos}");
         }
         Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
         if (parentDangerTilemap.HasTile(dangerCellPos)) {
             parentDangerTilemap.SetTile(dangerCellPos,null);
+            return;
             // Debug.Log($"Destroyed dangerous tile at {dangerCellPos}");
         }
         // Vector3Int castLocationCell = parentTilemap.WorldToCell(pos);
