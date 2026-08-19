@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3253627228436107120}
   - component: {fileID: -9045137265329130379}
   m_Layer: 13
-  m_Name: ArrowTrap
+  m_Name: BombTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   rayDist: 8
   hitLayers:
     serializedVersion: 2
-    m_Bits: 5448
+    m_Bits: 13640
   arrow: {fileID: 7625004433112884628, guid: 554f133797f65e94593591f5ca88a491, type: 3}
   arrowSpeed: 10
 --- !u!61 &-9045137265329130379

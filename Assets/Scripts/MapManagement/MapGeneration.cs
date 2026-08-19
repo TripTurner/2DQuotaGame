@@ -17,6 +17,9 @@ public class MapGeneration : MonoBehaviour
     public GameObject tempFilled;
 
     public ChunkGenerator generator;
+    public ItemGenerator itemGenerator;
+    [SerializeField] private float maxItemsPerChunk;
+    [SerializeField] private float minReduction = .9f;
 
     public TileDestroyer tileDestroyer;
 
@@ -92,6 +95,9 @@ public class MapGeneration : MonoBehaviour
             }
         }
         generator.generateChunks(tileArr);
+
+        int itemAmount = Mathf.FloorToInt(Random.Range(minReduction,1f) * maxItemsPerChunk * width * height);
+        itemGenerator.generateItems(itemAmount, width, height, 12);
     }
 
     public class Walker { //x and y are zero-indexed

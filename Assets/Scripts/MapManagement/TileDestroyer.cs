@@ -91,15 +91,14 @@ public class TileDestroyer : MonoBehaviour
     public bool cellTypeAt(Vector3 pos, string type) {
         Vector3Int cellPos = parentTilemap.WorldToCell(pos);
         Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
-        if (type == "normal" && parentTilemap.HasTile(cellPos)) {
-            return true;
-        } else if (type=="danger" && parentDangerTilemap.HasTile(dangerCellPos)) {
-            return true;
+        if (parentTilemap.HasTile(cellPos)) {
+            if (type == "normal" || type=="any") return true;
+        } else if (parentDangerTilemap.HasTile(dangerCellPos)) {
+            if (type=="danger" || type=="any") return true;
         } else if (type=="destroy") {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void switchTile(Vector3Int pos, string type, bool temp, float time = 0) {

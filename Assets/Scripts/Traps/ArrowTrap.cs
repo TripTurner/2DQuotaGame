@@ -11,9 +11,14 @@ public class ArrowTrap : MonoBehaviour
     private bool armed = true;
 
     RaycastHit2D hit;
+
+    private TileDestroyer world;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        world = GameObject.FindWithTag("World").GetComponent<TileDestroyer>();
+        if (world.cellTypeAt(new Vector2(transform.position.x + 1, transform.position.y),"any")) dir *=-1;
         hit = Physics2D.Raycast(new Vector2(transform.position.x+0.6f*dir,transform.position.y),new Vector2(dir,0),rayDist,hitLayers);
     }
 
