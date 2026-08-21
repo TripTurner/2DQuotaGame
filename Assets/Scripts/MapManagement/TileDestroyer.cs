@@ -136,7 +136,7 @@ public class TileDestroyer : MonoBehaviour
                 parentTilemap.SetTile(cellPos,null);
                 Debug.Log("Temporarily destroying");
                 if (temp) {
-                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => placeTile(pos,"normal",false)));
                     tempTileChanges[cellPos] = newRoutine;
                 }
             }
@@ -158,31 +158,70 @@ public class TileDestroyer : MonoBehaviour
             } else if (type=="destroy") {
                 parentDangerTilemap.SetTile(dangerCellPos,null);
                 if (temp) {
-                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"danger",false)));
+                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => placeTile(pos,"danger",false)));
                     tempTileChanges[cellPos] = newRoutine;
                 }
             }
-        } else {
-            if (type=="normal") {
-                parentTilemap.SetTile(cellPos,normalTile);
-                if (temp) {
-                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"destroy",false)));
-                    tempTileChanges[cellPos] = newRoutine;
-                }
-            } else if (type=="danger") {
-                parentDangerTilemap.SetTile(dangerCellPos,dangerTile);
-                if (temp) {
-                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"destroy",false)));
-                    tempTileChanges[dangerCellPos] = newRoutine;
-                }
-            } else if (type=="destroy") { //add logic for traps later when I figure that out
-                if (tempTileChanges.ContainsKey(cellPos)) {
-                    StopCoroutine(tempTileChanges[cellPos]);
-                    tempTileChanges.Remove(cellPos);
-                    Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => switchTile(pos,"normal",false)));
-                    tempTileChanges[cellPos] = newRoutine;
-                }
+        } else if (type=="destroy") { //add logic for traps later when I figure that out
+            if (tempTileChanges.ContainsKey(cellPos)) {
+                StopCoroutine(tempTileChanges[cellPos]);
+                tempTileChanges.Remove(cellPos);
+                Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => placeTile(pos,"normal",false)));
+                tempTileChanges[cellPos] = newRoutine;
             }
+        }
+    }
+
+    public void placeTile(Vector2 pos, string type, bool temp, float time = 0) {
+        placeTile((Vector3) pos, type, temp, time);
+    }
+    
+    public void placeTile(Vector3Int pos, string type, bool temp, float time = 0) {
+        placeTile((Vector3) pos, type, temp, time);
+    }
+
+    public void placeTile(Vector2Int pos, string type, bool temp, float time = 0) {
+        placeTile((Vector3Int) pos, type, temp, time);
+    }
+
+    public void placeTile(Vector3 pos, string type, bool temp, float time = 0) {
+        Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+        Vector3Int dangerCellPos = parentDangerTilemap.WorldToCell(pos);
+        
+        if (parentTilemap.HasTile(cellPos) || parentDangerTilemap.HasTile(dangerCellPos)) return;
+
+        if (type=="normal") {
+            parentTilemap.SetTile(cellPos,normalTile);
+            if (temp) {
+                Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => destroyTile(pos)));
+                tempTileChanges[cellPos] = newRoutine;
+            }
+        } else if (type=="danger") {
+            parentDangerTilemap.SetTile(dangerCellPos,dangerTile);
+            if (temp) {
+                Coroutine newRoutine = StartCoroutine(runWithDelay(time, () => destroyTile(pos)));
+                tempTileChanges[dangerCellPos] = newRoutine;
+            }
+        }
+    }
+
+    public void removeCoroutine(Vector2 pos) {
+        removeCoroutine((Vector3) pos);
+    }
+
+    public void removeCoroutine(Vector3Int pos) {
+        removeCoroutine((Vector3) pos);
+    }
+
+    public void removeCoroutine(Vector2Int pos) {
+        removeCoroutine((Vector2Int) pos);
+    }
+
+    public void removeCoroutine(Vector3 pos) {
+        Vector3Int cellPos = parentTilemap.WorldToCell(pos);
+        if (tempTileChanges.ContainsKey(cellPos)) {
+            StopCoroutine(tempTileChanges[cellPos]);
+            tempTileChanges.Remove(cellPos);
         }
     }
 

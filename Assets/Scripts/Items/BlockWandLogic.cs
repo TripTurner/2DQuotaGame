@@ -58,7 +58,7 @@ public class BlockWandLogic : ItemLogic
         Vector2 dir = ((Vector2)mousePos-(Vector2)centerPos).normalized;
         Vector2 checkPos = (Vector2)transform.position + dir*wandLength;
         if (!world.cellTypeAt(checkPos, "normal")) {
-            world.switchTile(checkPos, "normal", false);
+            world.placeTile(checkPos, "normal", false);
         }
     }
 }

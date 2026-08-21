@@ -63,7 +63,7 @@ public class EnemyData : MonoBehaviour, IDamageable
     }
 
     public virtual void childDead(EnemyData child) {
-        Destroy(gameObject);
+        onDeath();
     }
 
     public virtual void takeDamage(float damage, Vector2 knockback) {
@@ -71,5 +71,9 @@ public class EnemyData : MonoBehaviour, IDamageable
         if (health<=0) {
             parent.childDead(this);
         }
+    }
+
+    public virtual void onDeath() {
+        Destroy(gameObject);
     }
 }

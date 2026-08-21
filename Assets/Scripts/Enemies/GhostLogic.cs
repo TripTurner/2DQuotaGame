@@ -44,6 +44,23 @@ public class GhostLogic : EnemyData
                 world.switchTile(v,"destroy",true,destroyTime);
             }
         }
+    }
 
+    public override void onDeath() {
+        int range = Mathf.CeilToInt(terrainDistance);
+        List<Vector3> breakPositions = new List<Vector3>();
+        Vector3 pos = transform.position;
+        for (int i=-range; i<=range; i++) {
+            for (int j=-range; j<=range; j++) {
+                Vector3 testPos = new Vector3(pos.x + i, pos.y + j, pos.z);
+                // if ((testPos-pos).sqrMagnitude <= terrainDistance*terrainDistance) {
+                    breakPositions.Add(testPos);
+                // }
+            }
+        }
+        foreach (Vector3 v in breakPositions) {
+            world.removeCoroutine(v);
+        }
+        base.onDeath();
     }
 }
