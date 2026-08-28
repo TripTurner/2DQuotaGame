@@ -19,7 +19,7 @@ public class SpawnPointTrackerTooClose : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if ((spawnPointLayer & (1<<other.gameObject.layer)) != 0) {
-            spawnPoints.Add(other.gameObject);
+            if (other.gameObject.CompareTag("SpawnDataHolder")) spawnPoints.Add(other.gameObject);
         }
     }
 
@@ -28,4 +28,8 @@ public class SpawnPointTrackerTooClose : MonoBehaviour
             spawnPoints.Remove(other.gameObject);
         }
     }
-}
+
+    public List<GameObject> getSpawnPoints() {
+        return spawnPoints;
+    }
+ }

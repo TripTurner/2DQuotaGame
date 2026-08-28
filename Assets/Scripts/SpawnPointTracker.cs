@@ -30,10 +30,11 @@ public class SpawnPointTracker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if ((spawnPointLayer & (1<<other.gameObject.layer)) != 0) {
-            spawnPoints.Add(other.gameObject);
-        }
-        if ((enemyLayer & (1<<other.gameObject.layer)) != 0) {
-            enemies.Add(other.gameObject);
+            if (other.gameObject.CompareTag("SpawnDataHolder")) {
+                enemies.Add(other.gameObject);
+            } else {
+                spawnPoints.Add(other.gameObject);
+            }
         }
     }
 
@@ -43,6 +44,49 @@ public class SpawnPointTracker : MonoBehaviour
         }
         if (enemies.Contains(other.gameObject)) {
             enemies.Remove(other.gameObject);
+        }
+    }
+
+    public int getBudget() {
+        int total = 0;
+        foreach (GameObject GO in enemies) {
+            total+=GO.GetComponent<SpawnDataHolder>().spawnData.budgetCost;
+        }
+        return total;
+    }
+
+    public int amountOfEnemies(string enemy) {
+        int amount = 0;
+        foreach (GameObject GO in enemies) {
+            if (enemy == GO.GetComponent<SpawnDataHolder>().spawnData.name) amount++;
+        }
+        return amount;
+    }
+
+    public bool canSpawn() {
+        if (spawnPoints.Count==0) {
+            return false;
+        } else if (spawnPoints.Count == tooClose.getSpawnPoints().Count) {
+            return false;
+        }
+        return true;
+    }
+
+    public void spawnEnemy(EnemySpawnData enemy) {
+        if (!canSpawn()) return;
+        GameObject spawnPoint = getFarSpawn();
+        // spawnPoints.RemoveAt(index);
+
+        Instantiate(enemy.prefab, spawnPoint.transform.position, Quaternion.identity);
+    }
+
+    public GameObject getFarSpawn() {
+        int index = Random.Range(0,spawnPoints.Count);
+        GameObject spawnPoint = spawnPoints[index];
+        if (tooClose.getSpawnPoints().Contains(spawnPoint)) {
+            return getFarSpawn();
+        } else {
+            return spawnPoint;
         }
     }
 }
