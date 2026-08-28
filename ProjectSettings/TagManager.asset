@@ -8,6 +8,7 @@ TagManager:
   - Bomb
   - DangerTilemap
   - World
+  - SpawnDataHolder
   layers:
   - Default
   - TransparentFX

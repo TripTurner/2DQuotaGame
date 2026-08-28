@@ -1276,6 +1276,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b99ec079ea02ff408ab59a3298600e7, type: 2}
   baseBudget: 10
   spawnTimer: 2
+  tracker: {fileID: 914776268}
 --- !u!4 &601435780
 Transform:
   m_ObjectHideFlags: 0
