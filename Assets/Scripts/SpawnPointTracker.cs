@@ -20,7 +20,7 @@ public class SpawnPointTracker : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         GetComponent<CircleCollider2D>().radius = radius;
         tooClose.GetComponent<CircleCollider2D>().radius = tooCloseRadius;
-    }
+    } 
 
     // Update is called once per frame
     void Update()
