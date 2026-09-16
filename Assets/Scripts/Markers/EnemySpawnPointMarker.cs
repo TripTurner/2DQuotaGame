@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemySpawnPointMarker : MonoBehaviour
+public class EnemySpawnPointMarker : MarkerData
 {
     [SerializeField] private GameObject GO;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -15,8 +15,9 @@ public class EnemySpawnPointMarker : MonoBehaviour
         
     }
 
-    public GameObject createObject() {
+    public override GameObject createObject() {
         GameObject toInstantiate = Instantiate(GO, transform.position, transform.rotation);
+        Debug.Log("Made the object!!!!");
         return toInstantiate;
     }
 }

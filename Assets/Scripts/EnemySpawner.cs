@@ -35,7 +35,11 @@ public class EnemySpawner : MonoBehaviour
     }
 
     public void spawnEnemies() {
-        if (!tracker.canSpawn()) return;
+        Debug.Log("Called spawnEnemies()");
+        if (!tracker.canSpawn()) {
+            Debug.Log("Cannot spawn");
+            return;
+        }
         float spawnProb = Random.Range(0,maxProbability);
         EnemySpawnData toSpawn = null;
         for (int i=0; i<enemySpawnData.Count; i++) {
@@ -63,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
 
         // Instantiate(toSpawn.prefab, player.transform.position, Quaternion.identity);
         tracker.spawnEnemy(toSpawn);
+        Debug.Log($"Spawned {toSpawn}");
         spawnEnemies();
     }
 }

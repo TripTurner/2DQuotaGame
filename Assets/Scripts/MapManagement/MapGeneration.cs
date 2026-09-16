@@ -80,7 +80,7 @@ public class MapGeneration : MonoBehaviour
             iterations++;
             if (iterations>300) {
                 walkersAlive = false;
-                Debug.Log("Somehow went through 300 iterations");
+                // Debug.Log("Somehow went through 300 iterations");
             }
         }
         for (int i=0; i<tileArr.GetLength(0); i++) {
@@ -231,7 +231,7 @@ public class MapGeneration : MonoBehaviour
 
         public void respawn() {
             if (eligibleSpawns.Count==0) {
-                Debug.Log("Couldn't find eligible spawn");
+                // Debug.Log("Couldn't find eligible spawn");
                 ttl=0;
                 return;
             }

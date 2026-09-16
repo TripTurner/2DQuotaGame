@@ -17,6 +17,7 @@ public class SpawnPointTracker : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        tooClose = GetComponentInChildren<SpawnPointTrackerTooClose>();
         player = GameObject.FindWithTag("Player");
         GetComponent<CircleCollider2D>().radius = radius;
         tooClose.GetComponent<CircleCollider2D>().radius = tooCloseRadius;
@@ -29,10 +30,12 @@ public class SpawnPointTracker : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Entered trigger");
         if ((spawnPointLayer & (1<<other.gameObject.layer)) != 0) {
             if (other.gameObject.CompareTag("SpawnDataHolder")) {
                 enemies.Add(other.gameObject);
             } else {
+                Debug.Log("md");
                 spawnPoints.Add(other.gameObject);
             }
         }
@@ -64,6 +67,9 @@ public class SpawnPointTracker : MonoBehaviour
     }
 
     public bool canSpawn() {
+        Debug.Log($"Amount of spawnPoints in range: {spawnPoints.Count}");
+        Debug.Log($"Here is the list: {spawnPoints}");
+        // Debug.Log($"Enemy list: {enemies}");
         if (spawnPoints.Count==0) {
             return false;
         } else if (spawnPoints.Count == tooClose.getSpawnPoints().Count) {

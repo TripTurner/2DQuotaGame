@@ -32,6 +32,7 @@ public class ChunkInitialization : MonoBehaviour
         markerList = new List<MarkerData>(
             GetComponentsInChildren<MarkerData>()
         );
+        Debug.Log($"This is the marker List: {markerList}");
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -67,6 +68,7 @@ public class ChunkInitialization : MonoBehaviour
         }
         foreach (MarkerData MD in markerList) {
             MD.createObject();
+            Debug.Log("Called create object");
         }
         if (hasTraps) {
             foreach(TrapPlacement trap in trapScripts) {

@@ -36,14 +36,14 @@ public class ItemGenerator : MonoBehaviour
                 float localX = i + .5f;
                 float localY = j + .5f;
                 if (world.cellTypeAt(new Vector2(localX,localY),"destroy")) {
-                    Debug.Log($"Empty spot at {i}, {j}");
+                    // Debug.Log($"Empty spot at {i}, {j}");
                     Instantiate(item,new Vector3(localX,localY), Quaternion.identity);
                     return;
                 }
             }
         }
         world.destroyTile(new Vector2(x+.5f,y+.5f));
-        Debug.Log($"No empty spots, destroying {x}, {y}");
+        // Debug.Log($"No empty spots, destroying {x}, {y}");
         Instantiate(item, new Vector3(x+.5f,y+.5f), Quaternion.identity);
     }
 }
