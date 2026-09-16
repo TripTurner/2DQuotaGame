@@ -30,12 +30,10 @@ public class SpawnPointTracker : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Entered trigger");
         if ((spawnPointLayer & (1<<other.gameObject.layer)) != 0) {
             if (other.gameObject.CompareTag("SpawnDataHolder")) {
                 enemies.Add(other.gameObject);
             } else {
-                Debug.Log("md");
                 spawnPoints.Add(other.gameObject);
             }
         }
@@ -47,13 +45,14 @@ public class SpawnPointTracker : MonoBehaviour
         }
         if (enemies.Contains(other.gameObject)) {
             enemies.Remove(other.gameObject);
+            Debug.Log("Removed enemy");
         }
     }
 
     public int getBudget() {
         int total = 0;
         foreach (GameObject GO in enemies) {
-            total+=GO.GetComponent<SpawnDataHolder>().spawnData.budgetCost;
+            total+=GO.GetComponentInChildren<SpawnDataHolder>().spawnData.budgetCost;
         }
         return total;
     }
@@ -61,14 +60,13 @@ public class SpawnPointTracker : MonoBehaviour
     public int amountOfEnemies(string enemy) {
         int amount = 0;
         foreach (GameObject GO in enemies) {
-            if (enemy == GO.GetComponent<SpawnDataHolder>().spawnData.name) amount++;
+            if (enemy == GO.GetComponentInChildren<SpawnDataHolder>().spawnData.name) amount++;
         }
         return amount;
     }
 
     public bool canSpawn() {
         Debug.Log($"Amount of spawnPoints in range: {spawnPoints.Count}");
-        Debug.Log($"Here is the list: {spawnPoints}");
         // Debug.Log($"Enemy list: {enemies}");
         if (spawnPoints.Count==0) {
             return false;
@@ -83,7 +81,8 @@ public class SpawnPointTracker : MonoBehaviour
         GameObject spawnPoint = getFarSpawn();
         // spawnPoints.RemoveAt(index);
 
-        Instantiate(enemy.prefab, spawnPoint.transform.position, Quaternion.identity);
+        GameObject toInstantiate = Instantiate(enemy.prefab, spawnPoint.transform.position, Quaternion.identity);
+        enemies.Add(toInstantiate);
     }
 
     public GameObject getFarSpawn() {

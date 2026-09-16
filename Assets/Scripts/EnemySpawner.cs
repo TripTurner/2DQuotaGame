@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
 
     public SpawnPointTracker tracker;
 
+    private int loopPrevent = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,11 +32,14 @@ public class EnemySpawner : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer<=0) {
             timer = spawnTimer;
+            loopPrevent = 0;
             spawnEnemies();
         }
     }
 
     public void spawnEnemies() {
+        loopPrevent++;
+        if (loopPrevent >= 50) return;
         Debug.Log("Called spawnEnemies()");
         if (!tracker.canSpawn()) {
             Debug.Log("Cannot spawn");
