@@ -295,7 +295,7 @@ MonoBehaviour:
   dealingDamage: 1
   knockback: {x: 0, y: 1}
   knockbackFloat: 10
-  health: 30
+  health: 15
 --- !u!1 &3678863991279646356
 GameObject:
   m_ObjectHideFlags: 0

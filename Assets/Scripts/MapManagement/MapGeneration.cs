@@ -40,6 +40,8 @@ public class MapGeneration : MonoBehaviour
         tileArr[0,midpoint] = 1;
         tileArr[1,midpoint] = 1;
         tileArr[2,midpoint] = 1;
+
+        //generateMap();
     }
 
     // Update is called once per frame
