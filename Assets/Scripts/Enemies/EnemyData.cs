@@ -7,6 +7,7 @@ public class EnemyData : MonoBehaviour, IDamageable
     [SerializeField] protected Vector2 knockback = new Vector2(0,1);
     [SerializeField] protected float knockbackFloat = 10;
     [SerializeField] protected float health;
+    protected GameObject player;
     protected IDamageable parent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +23,7 @@ public class EnemyData : MonoBehaviour, IDamageable
 
     public virtual void initialize() {
         parent = transform.parent.gameObject.GetComponent<IDamageable>();
+        player = GameObject.FindWithTag("Player");
         // Debug.Log(parent);
         //knockback = new Vector2(0,1);
     }
@@ -75,5 +77,15 @@ public class EnemyData : MonoBehaviour, IDamageable
 
     public virtual void onDeath() {
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject == player) {
+            hitPlayer();
+        }
+    }
+
+    protected virtual void hitPlayer() {
+
     }
 }

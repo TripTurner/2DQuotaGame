@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
     public void spawnEnemies() {
         loopPrevent++;
         if (loopPrevent >= 50) return;
-        Debug.Log("Called spawnEnemies()");
+        // Debug.Log("Called spawnEnemies()");
         if (!tracker.canSpawn()) {
             Debug.Log("Cannot spawn");
             return;
@@ -55,7 +55,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         if (toSpawn==null) {
-            Debug.Log("Couldn't find enemy for some reason");
+            // Debug.Log("Couldn't find enemy for some reason");
             return;
         }
 

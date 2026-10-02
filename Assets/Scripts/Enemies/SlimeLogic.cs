@@ -22,7 +22,7 @@ public class SlimeLogic : EnemyData
     private bool seesPlayer;
 
     private Rigidbody2D rb;
-    private GameObject player;
+    // private GameObject player;
     public TileDestroyer world;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -86,7 +86,7 @@ public class ChunkGenerator : MonoBehaviour
                     if (leftOpen) check|= Openings.Left;
                     if (rightOpen) check|= Openings.Right;
                     // if ((testChunk.openings&check)==check) {
-                    if (testChunk.openings==check) {
+                    if ((testChunk.openings & check) == check) {
                         toInstantiate = testChunk.gameObject;
                         filledChunkNum++;
                         break;

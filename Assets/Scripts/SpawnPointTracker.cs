@@ -21,6 +21,7 @@ public class SpawnPointTracker : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         GetComponent<CircleCollider2D>().radius = radius;
         tooClose.GetComponent<CircleCollider2D>().radius = tooCloseRadius;
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(),tooClose.GetComponent<Collider2D>(), true);
     } 
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class SpawnPointTracker : MonoBehaviour
         }
         if (enemies.Contains(other.gameObject)) {
             enemies.Remove(other.gameObject);
-            Debug.Log("Removed enemy");
+            // Debug.Log("Removed enemy");
         }
     }
 
@@ -67,6 +68,7 @@ public class SpawnPointTracker : MonoBehaviour
 
     public bool canSpawn() {
         Debug.Log($"Amount of spawnPoints in range: {spawnPoints.Count}");
+        Debug.Log($"Amount of spawnPoints too close: {tooClose.getSpawnPoints().Count}");
         // Debug.Log($"Enemy list: {enemies}");
         if (spawnPoints.Count==0) {
             return false;
